@@ -64,7 +64,11 @@ export class Updater {
     }
 
     const [channel, current] = await Promise.all([
-      options.channel ?? determineChannel({config: this.config, version}),
+      // options.channel ?? determineChannel({config: this.config, version}),
+      // FIXME override default channel so that determineChannel doesn't
+      // incorrectly check npmjs.org for a different package of the same name
+      // see https://github.com/oclif/plugin-update/issues/797
+      'stable',
       determineCurrentVersion(this.clientBin, this.config.version),
     ])
 
@@ -419,6 +423,7 @@ const downloadAndExtract = async (
   await extraction
 }
 
+/*
 const determineChannel = async ({config, version}: {config: Config; version?: string}): Promise<string> => {
   const channelPath = join(config.dataDir, 'channel')
 
@@ -439,8 +444,12 @@ const determineChannel = async ({config, version}: {config: Config; version?: st
     return channel
   }
 }
+*/
 
 const determineCurrentVersion = async (clientBin: string, version: string): Promise<string> => {
+  // if binary file doesn't exist, just return without showing an error
+  // see https://github.com/oclif/plugin-update/issues/798
+  if (!existsSync(clientBin)) return version
   try {
     const currentVersion = await readFile(clientBin, 'utf8')
     const matches = currentVersion.match(/\.\.[/\\|](.+)[/\\|]bin/)
