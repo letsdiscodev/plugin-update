@@ -1,5 +1,5 @@
 {
-  "name": "@letsdiscodev/oclif-plugin-update",
+  "name": "@letsdiscodev/plugin-update",
   "version": "4.2.7",
   "author": "Salesforce",
   "bugs": "https://github.com/oclif/plugin-update/issues",
@@ -71,7 +71,7 @@
     ],
     "flexibleTaxonomy": true
   },
-  "repository": "oclif/plugin-update",
+  "repository": "letsdiscodev/plugin-update",
   "scripts": {
     "build": "shx rm -rf lib && tsc",
     "clean": "shx rm -f oclif.manifest.json npm-shrinkwrap.json",
